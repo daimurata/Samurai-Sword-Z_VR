@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2015
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samurai-Sword-Z_VR.CSharp", "Samurai-Sword-Z_VR.CSharp.csproj", "{ACDEFE82-39FA-9BF5-C28A-EB99D4C4FCDE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Samurai-Sword-Z_VR.CSharp.Editor", "Samurai-Sword-Z_VR.CSharp.Editor.csproj", "{609EE5AF-9662-6E26-33F4-B54EA098A91F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{ACDEFE82-39FA-9BF5-C28A-EB99D4C4FCDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACDEFE82-39FA-9BF5-C28A-EB99D4C4FCDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACDEFE82-39FA-9BF5-C28A-EB99D4C4FCDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACDEFE82-39FA-9BF5-C28A-EB99D4C4FCDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{609EE5AF-9662-6E26-33F4-B54EA098A91F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{609EE5AF-9662-6E26-33F4-B54EA098A91F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{609EE5AF-9662-6E26-33F4-B54EA098A91F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{609EE5AF-9662-6E26-33F4-B54EA098A91F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
