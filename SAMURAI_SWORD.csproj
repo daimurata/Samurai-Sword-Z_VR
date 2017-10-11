@@ -78,9 +78,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Blade.cs" />
+    <Compile Include="Assets\BladeSystem.cs" />
+    <Compile Include="Assets\Cut.cs" />
     <Compile Include="Assets\CutMesh.cs" />
     <Compile Include="Assets\Cutter.cs" />
     <Compile Include="Assets\LineBlade.cs" />
+    <Compile Include="Assets\MeshCut.cs" />
+    <Compile Include="Assets\Move.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRBoundary.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRCameraRig.cs" />
     <Compile Include="Assets\OVR\Scripts\OVRCommon.cs" />

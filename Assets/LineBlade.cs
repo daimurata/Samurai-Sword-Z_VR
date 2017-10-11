@@ -20,6 +20,9 @@ public class LineBlade : MonoBehaviour
 
     CutMesh cutMesh;
 
+    [SerializeField]
+    OVRInput.Controller controller;
+
     void Start()
     {
         //_lineRenderer = GetComponent<LineRenderer>();
@@ -43,20 +46,23 @@ public class LineBlade : MonoBehaviour
         //    endMousePos.z = 10.0f;
         //    endPos = Camera.main.ScreenToWorldPoint(endMousePos);
 
-        //    _lineRenderer.SetPositions(new Vector3[] { startPos, endPos });
-        //    _lineRenderer.enabled = true;
-        //    Create();
-        //    var cutMesh = FindCutMesh();
-        //    if(cutMesh != null){
-        //        _cutter.Cut(_plane , cutMesh);
-        //    }
+            //_lineRenderer.SetPositions(new Vector3[] { startPos, endPos });
+            //_lineRenderer.enabled = true;
+            //Create();
+            //var cutMesh = FindCutMesh();
+            //if (cutMesh != null)
+            //{
+                //_cutter.Cut(_plane, cutMesh);
+            //}
 
-        //}
-        //2017/07/27追加　移動スピード変わらず。取得されない
-        HandAnchor = GetComponent<Rigidbody>();
-        GetComponent<Rigidbody>().position = Vector3.zero;
+            //}
+            //2017/07/27追加　移動スピード変わらず。取得されない
+            //HandAnchor = GetComponent<Rigidbody>();
+            //GetComponent<Rigidbody>().position = Vector3.zero;
 
-        Debug.Log("spped" + HandAnchor.velocity.magnitude);
+            //Debug.Log("spped" + HandAnchor.velocity.magnitude);
+            //2017/10/11速度検出完
+            Debug.Log("ControllerR:" + OVRInput.GetLocalControllerAngularVelocity(controller).magnitude);
 
     }
 
@@ -86,22 +92,22 @@ public class LineBlade : MonoBehaviour
 
     }
 
-    //private CutMesh FindCutMesh()
-    //{
-    //    RaycastHit hit;
-    //    // 面倒だが、線の中心点をscreenposに変換してからrayを飛ばして切断オブジェクトを探している
-    //    var screenPos = Camera.main.WorldToScreenPoint(position);
-    //    Ray ray = Camera.main.ScreenPointToRay(screenPos);
-    //    if (Physics.Raycast(ray, out hit , Mathf.Infinity))
-    //    {
-    //        var cutMesh = hit.collider.gameObject.GetComponent<CutMesh>();
-    //        if (cutMesh != null)
-    //        {
-    //            return cutMesh;
-    //        }
-    //    }
-    //    return null;
-    //}
+    private CutMesh FindCutMesh()
+    {
+        RaycastHit hit;
+        // 面倒だが、線の中心点をscreenposに変換してからrayを飛ばして切断オブジェクトを探している
+        var screenPos = Camera.main.WorldToScreenPoint(position);
+        Ray ray = Camera.main.ScreenPointToRay(screenPos);
+        if (Physics.Raycast(ray, out hit, Mathf.Infinity))
+        {
+            var cutMesh = hit.collider.gameObject.GetComponent<CutMesh>();
+            if (cutMesh != null)
+            {
+                return cutMesh;
+            }
+        }
+        return null;
+    }
 
     private void Create()
     {
