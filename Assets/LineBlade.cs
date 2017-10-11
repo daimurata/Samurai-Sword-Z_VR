@@ -24,6 +24,8 @@ public class LineBlade : MonoBehaviour
     {
         //_lineRenderer = GetComponent<LineRenderer>();
         //_lineRenderer.enabled = false;
+
+        
     }
 
     void FixedUpdate()
@@ -50,6 +52,9 @@ public class LineBlade : MonoBehaviour
         //    }
 
         //}
+        //2017/07/27追加　移動スピード変わらず。取得されない
+        HandAnchor = GetComponent<Rigidbody>();
+        GetComponent<Rigidbody>().position = Vector3.zero;
 
         Debug.Log("spped" + HandAnchor.velocity.magnitude);
 
