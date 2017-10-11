@@ -76,16 +76,12 @@ public class LineBlade : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
-       
-        if (HandAnchor.velocity.magnitude>=5.0f) {
-            Debug.Log("StartPos" + startPos + "/ EndPos" + endPos);
 
-            Create();
+        Create();
 
-            if (cutMesh != null)
-            {
-                _cutter.Cut(_plane, cutMesh);
-            }
+        if (cutMesh != null)
+        {
+            //_cutter.Cut(_plane, cutMesh);
         }
 
     }
