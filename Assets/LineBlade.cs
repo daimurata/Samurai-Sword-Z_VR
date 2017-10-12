@@ -18,6 +18,8 @@ public class LineBlade : MonoBehaviour
     private Vector3 startPos;
     private Vector3 endPos;
 
+    private float speed;
+
     CutMesh cutMesh;
 
     [SerializeField]
@@ -64,6 +66,8 @@ public class LineBlade : MonoBehaviour
             //2017/10/11速度検出完
             Debug.Log("ControllerR:" + OVRInput.GetLocalControllerAngularVelocity(controller).magnitude);
 
+        speed = OVRInput.GetLocalControllerAngularVelocity(controller).magnitude;
+
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -71,6 +75,11 @@ public class LineBlade : MonoBehaviour
         startPos = collision.contacts[0].point;
 
         cutMesh = collision.gameObject.GetComponent<CutMesh>();
+
+        if (speed >= 0.5)
+        {
+            cutMesh.Create();
+        }
 
         Debug.Log("HIT");
     }
