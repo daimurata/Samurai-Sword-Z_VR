@@ -81,8 +81,10 @@
     <Compile Include="Assets\Blade.cs" />
     <Compile Include="Assets\BladeSystem.cs" />
     <Compile Include="Assets\Cut.cs" />
+    <Compile Include="Assets\CutControl.cs" />
     <Compile Include="Assets\CutMesh.cs" />
     <Compile Include="Assets\Cutter.cs" />
+    <Compile Include="Assets\FadeOutIn.cs" />
     <Compile Include="Assets\LineBlade.cs" />
     <Compile Include="Assets\MeshCut.cs" />
     <Compile Include="Assets\Move.cs" />

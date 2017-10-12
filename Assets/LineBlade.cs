@@ -64,7 +64,7 @@ public class LineBlade : MonoBehaviour
 
             //Debug.Log("spped" + HandAnchor.velocity.magnitude);
             //2017/10/11速度検出完
-            Debug.Log("ControllerR:" + OVRInput.GetLocalControllerAngularVelocity(controller).magnitude);
+            //Debug.Log("ControllerR:" + OVRInput.GetLocalControllerAngularVelocity(controller).magnitude);
 
         speed = OVRInput.GetLocalControllerAngularVelocity(controller).magnitude;
 
@@ -76,12 +76,15 @@ public class LineBlade : MonoBehaviour
 
         cutMesh = collision.gameObject.GetComponent<CutMesh>();
 
-        if (speed >= 0.5)
+        if (cutMesh != null)
         {
-            cutMesh.Create();
-        }
+            if (speed >= 0.5)
+            {
+                cutMesh.Create();
+            }
 
-        Debug.Log("HIT");
+            Debug.Log("HIT");
+        }       
     }
 
     private void OnCollisionStay(Collision collision)
