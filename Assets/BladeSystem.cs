@@ -18,86 +18,42 @@ public class BladeSystem : MonoBehaviour
     private Vector3 normal;
     private Vector3 position;
 
-    [SerializeField]
-    OVRInput.Controller controller;
-
-    private float speed;
-
     //CutMesh cutMesh;
 
     Mesh mesh;
 
     private Vector3 StartPos, EndPos;
 
-    bool Cutjudge;
-
-    /// <summary>
-    /// 接触判定をするメソッド(処理)
-    /// </summary>
-    /// <param name="collision"></param>
     void OnCollisionEnter(Collision collision)
     {
-        speed = OVRInput.GetLocalControllerAngularVelocity(controller).magnitude;
+        CutObject = collision.gameObject;
+        StartPos = collision.contacts[0].point;
 
-        //Debug.Log(controller + "：速度" + speed);
+        //対象オブジェクトのメッシュを取得
+        //cutMesh = collision.gameObject.GetComponent<CutMesh>();
 
-        if (speed >= 0.5)
-        {
-            //Tag[CutObject]のみ切ることが可能
-            if(collision.gameObject.tag=="CutObject")
-            {
-                CutObject = collision.gameObject;
-                
-                //切断回数がまだある場合
-                if (CutObject.GetComponent<CutControl>().Count != 0)
-                {
-                    StartPos = collision.contacts[0].point;
-
-                    //対象オブジェクトのメッシュを取得
-                    mesh = CutObject.GetComponent<MeshFilter>().mesh;
-
-                    Cutjudge = true;
-                    //CutObject.GetComponent<CutControl>().Count -= 1;
-
-                    Debug.Log("切断");
-                }
-                else
-                {
-                    Debug.Log("もう切れません");
-                }            
-            }
-            
-        }
-
- 
+        mesh = CutObject.GetComponent<MeshFilter>().mesh;
     }
 
     void OnCollisionStay(Collision collision)
     {
-        if (Cutjudge)
-        {
-            EndPos = collision.contacts[0].point;
-        }
-     
+        EndPos = collision.contacts[0].point;
     }
 
     void OnCollisionExit(Collision collision)
     {
-        if (Cutjudge)
+        if(mesh != null)
         {
-            if (mesh != null)
-            {
-                Debug.Log("開始地点"+StartPos + "/終了地点"+ EndPos);
+            Create();
 
-                Create();
-
-                //オブジェクトカット
-                Blade.Cut(CutObject, _plane, mesh, Mat);
-
-                Cutjudge = false;
-            }
+            //オブジェクトカット
+            Blade.Cut(CutObject, _plane, mesh, Mat);
         }
-
+       
+        //if (cutMesh != null)
+        //{
+        //    _cutter.Cut(_plane, cutMesh);
+        //}
     }
 
     /// <summary>

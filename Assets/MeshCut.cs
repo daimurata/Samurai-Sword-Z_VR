@@ -284,12 +284,10 @@ namespace BLINDED_AM_ME
             rightSideObj.transform.position = victim.transform.position;
             rightSideObj.transform.rotation = victim.transform.rotation;
             rightSideObj.GetComponent<MeshFilter>().mesh = right_HalfMesh;
-            
 
             // assign mats
             // 新規生成したマテリアルリストをそれぞれのオブジェクトに適用する
             leftSideObj.GetComponent<MeshRenderer>().materials = mats;
-
             rightSideObj.GetComponent<MeshRenderer>().materials = mats;
 
             // 左右のGameObjectの配列を返す

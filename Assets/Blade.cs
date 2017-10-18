@@ -135,6 +135,8 @@ public class Blade : MonoBehaviour
         //相対的な平面をセット
         blade = plane;
 
+        Debug.Log(victim.GetComponent<MeshFilter>());
+
         //対象のメッシュを取得
         victim_mesh = mesh;        
 
@@ -183,7 +185,8 @@ public class Blade : MonoBehaviour
                 if (sides[0] == sides[1] && sides[0] == sides[2])
                 {
                     if (sides[0])
-                    {
+                    { // left side
+                      // GetSideメソッドでポジティブ（true）の場合は左側にあり
                         left_side.AddTriangle(p1, p2, p3, sub);
                     }
                     else
@@ -226,7 +229,6 @@ public class Blade : MonoBehaviour
         // カット開始
         Capping();
 
-        Debug.Log("左メッシュ：頂点"+left_side.vertices.Count);
 
         // Left Mesh
         // 左側のメッシュを生成
@@ -244,13 +246,13 @@ public class Blade : MonoBehaviour
             left_HalfMesh.SetIndices(left_side.subIndices[i].ToArray(), MeshTopology.Triangles, i);
         }
 
-        Debug.Log("右メッシュ：頂点" + right_side.vertices.Count);
 
         // Right Mesh
         // 右側のメッシュも同様に生成
         Mesh right_HalfMesh = new Mesh();
         right_HalfMesh.name = "Split Mesh Right";
         right_HalfMesh.vertices = right_side.vertices.ToArray();
+
         right_HalfMesh.triangles = right_side.triangles.ToArray();
         right_HalfMesh.normals = right_side.normals.ToArray();
         right_HalfMesh.uv = right_side.uvs.ToArray();
@@ -262,59 +264,44 @@ public class Blade : MonoBehaviour
             right_HalfMesh.SetIndices(right_side.subIndices[i].ToArray(), MeshTopology.Triangles, i);
         }
 
-        GameObject leftSideObj = null;
-        GameObject rightSideObj = null;
+        //左側のオブジェクトを新規作成
+        GameObject leftSideObj = new GameObject("left side", typeof(MeshFilter), typeof(MeshRenderer), typeof(Rigidbody), typeof(MeshCollider));
+        leftSideObj.transform.position = victim.transform.position;
+        leftSideObj.transform.rotation = victim.transform.rotation;
+        leftSideObj.transform.localScale = victim.transform.localScale;
+        leftSideObj.GetComponent<MeshFilter>().mesh = left_HalfMesh;
 
-        if(left_HalfMesh.triangles.Length != 0 && right_HalfMesh.triangles.Length != 0)
-        {
-            //左側のオブジェクトを新規作成
-            leftSideObj = new GameObject("left side", typeof(MeshFilter), typeof(MeshRenderer), typeof(Rigidbody), typeof(MeshCollider));
-            leftSideObj.transform.position = victim.transform.position;
-            leftSideObj.transform.rotation = victim.transform.rotation;
-            leftSideObj.transform.localScale = victim.transform.localScale;
-            leftSideObj.GetComponent<MeshFilter>().mesh = left_HalfMesh;
+        leftSideObj.GetComponent<Rigidbody>().useGravity = true;
 
-            leftSideObj.GetComponent<Rigidbody>().useGravity = true;
+        leftSideObj.GetComponent<MeshCollider>().sharedMesh = left_HalfMesh;
+        leftSideObj.GetComponent<MeshCollider>().convex = true;
 
-            if (left_HalfMesh.triangles.Length == 0) Debug.Log("no");
+        //// 元のオブジェクトを左側のオブジェクトに
+        //victim.name = "left side";
+        //victim.GetComponent<MeshFilter>().mesh = left_HalfMesh;
 
-            leftSideObj.GetComponent<MeshCollider>().sharedMesh = left_HalfMesh;
-            leftSideObj.GetComponent<MeshCollider>().convex = true;
+        ////MeshCollider生成
+        //victim.GetComponent<MeshCollider>().sharedMesh = left_HalfMesh;
+        //victim.GetComponent<MeshCollider>().convex = true;
 
-            leftSideObj.AddComponent<CutControl>().Count = victim.GetComponent<CutControl>().Count;
-            leftSideObj.tag = "CutObject";
+        // 右側のオブジェクトは新規作成
+        GameObject rightSideObj = new GameObject("right side", typeof(MeshFilter), typeof(MeshRenderer), typeof(Rigidbody), typeof(MeshCollider));
+        rightSideObj.transform.position = victim.transform.position;
+        rightSideObj.transform.rotation = victim.transform.rotation;
+        rightSideObj.transform.localScale = victim.transform.localScale;
+        rightSideObj.GetComponent<MeshFilter>().mesh = right_HalfMesh;
 
+        rightSideObj.GetComponent<Rigidbody>().useGravity = true;
 
-            // 右側のオブジェクトは新規作成
-            rightSideObj = new GameObject("right side", typeof(MeshFilter), typeof(MeshRenderer), typeof(Rigidbody), typeof(MeshCollider));
-            rightSideObj.transform.position = victim.transform.position;
-            rightSideObj.transform.rotation = victim.transform.rotation;
-            rightSideObj.transform.localScale = victim.transform.localScale;
-            rightSideObj.GetComponent<MeshFilter>().mesh = right_HalfMesh;
+        rightSideObj.GetComponent<MeshCollider>().sharedMesh = right_HalfMesh;
+        rightSideObj.GetComponent<MeshCollider>().convex = true;
 
-            rightSideObj.GetComponent<Rigidbody>().useGravity = true;
+        // 新規生成したマテリアルリストをそれぞれのオブジェクトに適用する
+        leftSideObj.GetComponent<MeshRenderer>().materials = mats;
+        rightSideObj.GetComponent<MeshRenderer>().materials = mats;
 
-            if (right_HalfMesh.triangles.Length == 0) Debug.Log("no");
-
-            rightSideObj.GetComponent<MeshCollider>().sharedMesh = right_HalfMesh;
-            rightSideObj.GetComponent<MeshCollider>().convex = true;
-
-            rightSideObj.AddComponent<CutControl>().Count = victim.GetComponent<CutControl>().Count;
-            rightSideObj.tag = "CutObject";
-
-            if (rightSideObj.GetComponent<CutControl>().Count == 0)
-            {
-                Destroy(rightSideObj);
-                Destroy(leftSideObj);
-            }
-
-            // 新規生成したマテリアルリストをそれぞれのオブジェクトに適用する
-            leftSideObj.GetComponent<MeshRenderer>().materials = mats;
-            rightSideObj.GetComponent<MeshRenderer>().materials = mats;
-
-            //元のオブジェクトは削除
-            Destroy(victim);
-        }
+        //元のオブジェクトは削除
+        Destroy(victim);
 
         // 左右のGameObjectの配列を返す
         return new GameObject[] { leftSideObj, rightSideObj };
